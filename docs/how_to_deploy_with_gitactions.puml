@@ -1,0 +1,40 @@
+' CI/CD構築　GoogleCloudRunにGitActionsでデプロイする' as docs_how_to_deploy_with_gitactions_puml
+
+
+@startuml
+
+' 流れ
+
+' リポジトリにpush
+actor User as user #Black
+
+node GitHub #LightBlue {
+  ' GitHub
+  rectangle GitHub #LightBlue {
+    ' リポジトリにpush
+    rectangle "RemoteRepository" as remote #Pink
+  }
+}
+
+node GitActions {
+  ' GitActions
+  rectangle GitActions #Orange{
+    ' リポジトリにpush
+    rectangle "GitHubActions" as actions #Red
+  }
+}
+
+node GoogleCloud {
+  ' GoogleCloud
+  rectangle GoogleCloud #LightGreen {
+    ' リポジトリにpush
+    rectangle "GoogleCloudRun" as run #Yellow
+  }
+}
+
+
+user -up-> remote : push
+remote -up-> actions : trigger
+actions -up-> run : テストしてデプロイ
+
+@enduml
